@@ -26,24 +26,25 @@
     // Karte
     const map = L.map('map').setView([54.5, 9.5], 7);
 
-    // Tiles
+  <!-- … dein Head, Map, Leaflet.js bleiben wie sie sind … -->
+
+  <script>
+    // Karte & Tiles
+    const map = L.map('map').setView([54.5, 9.5], 7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Marker-Icons (Farbe nach Abschnitt)
-    const iconBlue  = new L.Icon({iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+    // Marker-Icons
+    const mk = (color) => new L.Icon({
+      iconUrl:`https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${color}.png`,
       shadowUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-      iconSize:[25,41], iconAnchor:[12,41], popupAnchor:[1,-34], shadowSize:[41,41]});
-    const iconGreen = new L.Icon({iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-      shadowUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-      iconSize:[25,41], iconAnchor:[12,41], popupAnchor:[1,-34], shadowSize:[41,41]});
-    const iconRed   = new L.Icon({iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-      shadowUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-      iconSize:[25,41], iconAnchor:[12,41], popupAnchor:[1,-34], shadowSize:[41,41]});
+      iconSize:[25,41], iconAnchor:[12,41], popupAnchor:[1,-34], shadowSize:[41,41]
+    });
+    const iconBlue = mk('blue'), iconGreen = mk('green'), iconRed = mk('red');
 
-    // Helper zum Popup-HTML (Backticks!)
+    // Popup-Template
     const pop = (name, addr, master, tel, gmaps) => `
       <b>${name}</b><br>
       ${addr}<br>
@@ -51,56 +52,185 @@
       <a href="tel:${tel.replace(/\s+/g,'')}">${tel}</a><br>
       <a href="${gmaps}" target="_blank" rel="noopener">Google Maps</a>`;
 
-    // --- Marker (Auszug – deine komplette Liste) ---
-    L.marker([54.4749843, 9.0474306], {icon: iconBlue})
-      .addTo(map).bindPopup(pop(
-        'Husum Stadthafen & Binnenhafen',
-        'Hafenstraße, 25813 Husum, Germany',
-        'Hermut Götze',
-        '+49 4841 66130',
-        'https://www.google.com/maps/place/Husum+Hafen'
-      ));
+    // ---- ALLE HÄFEN (deine Liste wie zuvor) ----
+    const points = [
+      /* ==== Nordsee ==== */
+      {name:'Husum Stadthafen & Binnenhafen', lat:54.4749843, lon:9.0474306, region:'Nordsee',
+       addr:'Hafenstraße, 25813 Husum, Germany', master:'Hermut Götze', tel:'+49 4841 66130',
+       gmaps:'https://www.google.com/maps/place/Husum+Hafen'},
+      {name:'Tönning Hafen', lat:54.3155936, lon:8.945468, region:'Nordsee',
+       addr:'Am Hafen 20, 25832 Tönning, Germany', master:'Tönninger Yachtclub', tel:'+49 1577 8290741',
+       gmaps:'https://www.google.com/maps/place/Am+Hafen+20,+25832+Tönning'},
+      {name:'Friedrichstadt Stadthafen', lat:54.37321, lon:9.086167, region:'Nordsee',
+       addr:'Am Halbmond 3, 25840 Friedrichstadt, Germany', master:'Motorbootclub Westküste', tel:'+49 4881 7710',
+       gmaps:'https://www.google.com/maps/place/Am+Halbmond+3,+25840+Friedrichstadt'},
+      {name:'Eider-Sperrwerk Hafen', lat:54.266217, lon:8.842983, region:'Nordsee',
+       addr:'Dammstr. L305, 25764 Wesselburenerkoog, Germany', master:'Eider-Sperrwerk lock', tel:'+49 4833 4535211',
+       gmaps:'https://www.google.com/maps/place/Eidersperrwerk'},
+      {name:'Büsum Hafen (Sportboothafen)', lat:54.1235048, lon:8.8658055, region:'Nordsee',
+       addr:'Segeltörn 22, 25761 Büsum, Germany', master:'Büsumer Seglerverein', tel:'+49 4834 2997',
+       gmaps:'https://www.google.com/maps/place/Segeltörn+22,+25761+Büsum'},
+      {name:'Meldorfer Hafen (Speicherkoog)', lat:54.09217, lon:8.94983, region:'Nordsee',
+       addr:'Promenade 2, 25704 Meldorf, Germany', master:'Meldorfer Seglerverein', tel:'+49 4832 7658',
+       gmaps:'https://www.google.com/maps/place/Promenade+2,+25704+Meldorf'},
+      {name:'Brunsbüttel Sportboothafen (Nordsee)', lat:53.8933353, lon:9.1260533, region:'Nordsee',
+       addr:'Am alten Hafen, 25541 Brunsbüttel, Germany', master:'Brunsbüttel Marina', tel:'+49 160 6974729',
+       gmaps:'https://www.google.com/maps/place/Am+alten+Hafen,+25541+Brunsbüttel'},
+      {name:'Helgoland Marina (Südhafen)', lat:54.174167, lon:7.898056, region:'Nordsee',
+       addr:'Westkaje 1084, 27498 Helgoland, Germany', master:'WSA Tönning Außenbezirk Helgoland', tel:'+49 4725 81593583',
+       gmaps:'https://www.google.com/maps/place/Westkaje+1084,+27498+Helgoland'},
+      {name:'Dagebüll Hafen', lat:54.7302338, lon:8.6959679, region:'Nordsee',
+       addr:'Haffdeich 2, 25899 Dagebüll, Germany', master:'Timo Kiekow', tel:'+49 4667 233',
+       gmaps:'https://www.google.com/maps/place/Haffdeich+2,+25899+Dagebüll'},
+      {name:'Hallig Hooge Anleger/Marina', lat:54.576683, lon:8.540917, region:'Nordsee',
+       addr:'Hanswarft, 25859 Hallig Hooge, Germany', master:'Harry Diedrichsen', tel:'+49 4849 247',
+       gmaps:'https://www.google.com/maps/place/Hanswarft,+25859+Hallig+Hooge'},
 
-    L.marker([54.3155936, 8.945468], {icon: iconBlue})
-      .addTo(map).bindPopup(pop(
-        'Tönning Hafen',
-        'Am Hafen 20, 25832 Tönning, Germany',
-        'Tönninger Yachtclub',
-        '+49 1577 8290741',
-        'https://www.google.com/maps/place/Am+Hafen+20,+25832+Tönning'
-      ));
+      /* ==== NOK & Binnen ==== */
+      {name:'Brunsbüttel Sportboothafen (NOK)', lat:53.8917311, lon:9.1485976, region:'NOK & Binnen',
+       addr:'Alte Zentrale 4, 25541 Brunsbüttel, Germany', master:'Sportboothafen NOK', tel:'+49 4852 885374',
+       gmaps:'https://www.google.com/maps/place/Alte+Zentrale+4,+25541+Brunsbüttel'},
+      {name:'Rendsburg Stadthafen', lat:54.306417, lon:9.669317, region:'NOK & Binnen',
+       addr:'Am Eiland 11, 24768 Rendsburg, Germany', master:'Silke Bothmann', tel:'+49 4331 23961',
+       gmaps:'https://www.google.com/maps/place/Am+Eiland+11,+24768+Rendsburg'},
+      {name:'Kiel-Holtenau NOK-Yachthafen', lat:54.36917, lon:10.14667, region:'NOK & Binnen',
+       addr:'Kanalstraße, 24159 Kiel-Holtenau, Germany', master:'WSA Kiel-Holtenau', tel:'+49 431 3603125',
+       gmaps:'https://www.google.com/maps/place/Kanalstraße+24159+Kiel'},
+      {name:'Kappeln Stadthafen', lat:54.6673032, lon:9.9372401, region:'NOK & Binnen',
+       addr:'Am Hafen 14 A, 24376 Kappeln, Germany', master:'Kappeln Stadthafen', tel:'+49 172 4106702',
+       gmaps:'https://www.google.com/maps/place/Am+Hafen+14A,+24376+Kappeln'},
+      {name:'Maasholm Yachthafen', lat:54.68028, lon:9.99167, region:'NOK & Binnen',
+       addr:'Uleweg, 24404 Maasholm, Germany', master:'Maasholm Yachthafen', tel:'+49 4642 6021',
+       gmaps:'https://www.google.com/maps/place/Uleweg,+24404+Maasholm'},
+      {name:'Schleswig Stadthafen', lat:54.5, lon:9.56667, region:'NOK & Binnen',
+       addr:'Am Hafen 5, 24837 Schleswig, Germany', master:'Schleswig Stadthafen', tel:'+49 4621 801450',
+       gmaps:'https://www.google.com/maps/place/Am+Hafen+5,+24837+Schleswig'},
+      {name:'Missunde Hafen', lat:54.5239585, lon:9.7237265, region:'NOK & Binnen',
+       addr:'An de Wees 16, 24354 Kosel, Germany', master:'Yachthafen Missunde', tel:'+49 4354 98430',
+       gmaps:'https://www.google.com/maps/place/An+de+Wees+16,+24354+Kosel'},
+      {name:'Arnis Stadthafen', lat:54.634417, lon:9.9292961, region:'NOK & Binnen',
+       addr:'Friedenshöher Str. 21, 24376 Grödersby, Germany', master:'WSG Arnis/Grödersby e.V.', tel:'+49 4642 4421',
+       gmaps:'https://www.google.com/maps/place/Friedenshöher+Str.+21,+24376+Grödersby'},
 
-    L.marker([54.37321, 9.086167], {icon: iconBlue})
-      .addTo(map).bindPopup(pop(
-        'Friedrichstadt Stadthafen',
-        'Am Halbmond 3, 25840 Friedrichstadt, Germany',
-        'Motorbootclub Westküste',
-        '+49 4881 7710',
-        'https://www.google.com/maps/place/Am+Halbmond+3,+25840+Friedrichstadt'
-      ));
+      /* ==== Ostsee ==== */
+      {name:'Flensburg Stadthafen', lat:54.79111, lon:9.43667, region:'Ostsee',
+       addr:'Kanalschuppen 6, 24937 Flensburg, Germany', master:'Stadthafen Flensburg', tel:'+49 461 17499',
+       gmaps:'https://www.google.com/maps/place/Kanalschuppen+6,+24937+Flensburg'},
+      {name:'Marina Sonwik (Flensburg)', lat:54.81028, lon:9.4525, region:'Ostsee',
+       addr:'Fördepromenade 1, 24944 Flensburg, Germany', master:'Peter Holt', tel:'+49 461 5050450',
+       gmaps:'https://www.google.com/maps/place/Fördepromenade+1,+24944+Flensburg'},
+      {name:'Glücksburg Marina', lat:54.838482, lon:9.524156, region:'Ostsee',
+       addr:'Quellental 1, 24960 Glücksburg, Germany', master:'Flensburger Segel-Club', tel:'+49 4631 969',
+       gmaps:'https://www.google.com/maps/place/Quellental+1,+24960+Glücksburg'},
+      {name:'Langballigau Hafen', lat:54.8215369, lon:9.6558663, region:'Ostsee',
+       addr:'Strandweg 5, 24977 Langballigau, Germany', master:'Kreishafen Langballigau', tel:'+49 4636 976265',
+       gmaps:'https://www.google.com/maps/place/Strandweg+5,+24977+Langballigau'},
+      {name:'Strande Hafen', lat:54.4367917, lon:10.171962, region:'Ostsee',
+       addr:'Strandstraße 12, 24229 Strande, Germany', master:'Tobias Klüter', tel:'+49 4349 8988',
+       gmaps:'https://www.google.com/maps/place/Strandstraße+12,+24229+Strande'},
+      {name:'Laboe Yachthafen', lat:54.4012595, lon:10.2170107, region:'Ostsee',
+       addr:'Börn 8, 24235 Ostseebad Laboe, Germany', master:'Ole Kähler', tel:'+49 151 15064563',
+       gmaps:'https://www.google.com/maps/place/Börn+8,+24235+Laboe'},
+      {name:'Kiel-Düsternbrook', lat:54.333, lon:10.153, region:'Ostsee',
+       addr:'Kiellinie 65, 24105 Kiel, Germany', master:'Andreas Stranghöner / Ingo Seehusen', tel:'+49 431 26048426',
+       gmaps:'https://www.google.com/maps/place/Kiellinie+65,+24105+Kiel'},
+      {name:'Kiel-Reventlou', lat:54.333, lon:10.153, region:'Ostsee',
+       addr:'Kiellinie 65, 24105 Kiel, Germany', master:'Sporthafen Kiel GmbH', tel:'+49 431 26048426',
+       gmaps:'https://www.google.com/maps/place/Kiellinie+65,+24105+Kiel'},
+      {name:'Marina Wendtorf', lat:54.4194297, lon:10.2887216, region:'Ostsee',
+       addr:'An den Stegen 1, 24235 Marina Wendtorf, Germany', master:'ShipShape Deutschland GmbH', tel:'+49 4343 9090',
+       gmaps:'https://www.google.com/maps/place/An+den+Stegen+1,+24235+Wendtorf'},
+      {name:'Heiligenhafen Marina', lat:54.3746428, lon:10.9821252, region:'Ostsee',
+       addr:'Am Jachthafen 4a, 23774 Heiligenhafen, Germany', master:'Heiligenhafen Marina', tel:'+49 4362 503424',
+       gmaps:'https://www.google.com/maps/place/Am+Jachthafen+4a,+23774+Heiligenhafen'},
+      {name:'Großenbrode Hafen', lat:54.3555876, lon:11.0778585, region:'Ostsee',
+       addr:'Am Kai 29, 23775 Großenbrode, Germany', master:'Wassersportzentrum Großenbrode (Frank Meyer)', tel:'+49 172 4306800',
+       gmaps:'https://www.google.com/maps/place/Am+Kai+29,+23775+Großenbrode'},
+      {name:'Burgtiefe Marina (Fehmarn)', lat:54.414118, lon:11.2117658, region:'Ostsee',
+       addr:'Am Yachthafen 14, 23769 Burgtiefe auf Fehmarn, Germany', master:'Ralph Becker', tel:'+49 4371 8888900',
+       gmaps:'https://www.google.com/maps/place/Am+Yachthafen+14,+23769+Fehmarn'},
+      {name:'Orth Hafen (Fehmarn)', lat:54.4472165, lon:11.0505622, region:'Ostsee',
+       addr:'Am Hafen/Orth, 23769 Fehmarn, Germany', master:'Hafen Orth GmbH', tel:'+49 4372 1282',
+       gmaps:'https://www.google.com/maps/place/Orth,+Fehmarn'},
+      {name:'Puttgarden Yachthafen (Fehmarn)', lat:54.4967911, lon:11.2178042, region:'Ostsee',
+       addr:'Fährhafenstr., 23769 Fehmarn, Germany', master:'Hauptzollamt Kiel Puttgarden Fährhafen', tel:'+49 4362 506450',
+       gmaps:'https://www.google.com/maps/place/Fährhafen+Puttgarden'},
+      {name:'Neustadt i.H. – Ancora Marina', lat:54.09361, lon:10.80694, region:'Ostsee',
+       addr:'An der Wiek 7-15, 23730 Neustadt in Holstein, Germany', master:'Ancora Marina', tel:'+49 4561 51710',
+       gmaps:'https://www.google.com/maps/place/An+der+Wiek+7-15,+23730+Neustadt+in+Holstein'},
+      {name:'Travemünde Stadthafen (Marina Baltica)', lat:53.952992, lon:10.8566232, region:'Ostsee',
+       addr:'Travemünder Landstraße 300, 23570 Lübeck-Travemünde, Germany', master:'Marina Baltica GmbH / Michael Genzmer', tel:'+49 4502 86010',
+       gmaps:'https://www.google.com/maps/place/Travemünder+Landstraße+300,+23570+Lübeck'},
+      {name:'Travemünde Passathafen', lat:53.95833, lon:10.88, region:'Ostsee',
+       addr:'Am Priwallhafen 10, 23570 Lübeck, Germany', master:'Passathafen / Lübecker Yacht-Club', tel:'+49 4502 6396',
+       gmaps:'https://www.google.com/maps/place/Am+Priwallhafen+10,+23570+Lübeck'},
+      {name:'Niendorf/Ostsee Hafen', lat:53.9936345, lon:10.8117964, region:'Ostsee',
+       addr:'Im Hafen 1, 23669 Timmendorfer Strand, Germany', master:'Uwe Beythien / Segler Verein Niendorf', tel:'+49 4503 86769',
+       gmaps:'https://www.google.com/maps/place/Im+Hafen+1,+23669+Timmendorfer+Strand'}
+    ];
 
-    // … (füge hier die restlichen Marker aus deiner Liste ein,
-    //    einfach das gleiche Muster verwenden und das passende Icon:
-    //    Nordsee = iconBlue, NOK & Binnen = iconGreen, Ostsee = iconRed)
+    // LayerGroups nach Abschnitt
+    const groups = {
+      'Nordsee': L.layerGroup().addTo(map),
+      'NOK & Binnen': L.layerGroup().addTo(map),
+      'Ostsee': L.layerGroup().addTo(map)
+    };
+    const iconByRegion = (r) => r === 'Nordsee' ? iconBlue : (r === 'NOK & Binnen' ? iconGreen : iconRed);
 
-    // Beispiele noch zwei:
-    L.marker([54.4194297, 10.2887216], {icon: iconRed})
-      .addTo(map).bindPopup(pop(
-        'Marina Wendtorf',
-        'An den Stegen 1, 24235 Marina Wendtorf, Germany',
-        'ShipShape Deutschland GmbH',
-        '+49 4343 9090',
-        'https://www.google.com/maps/place/An+den+Stegen+1,+24235+Wendtorf'
-      ));
+    // Marker erzeugen
+    points.forEach(p => {
+      L.marker([p.lat, p.lon], {icon: iconByRegion(p.region)})
+        .bindPopup(pop(p.name, p.addr, p.master, p.tel, p.gmaps))
+        .addTo(groups[p.region]);
+    });
 
-    L.marker([54.09361, 10.80694], {icon: iconRed})
-      .addTo(map).bindPopup(pop(
-        'Neustadt i.H. – Ancora Marina',
-        'An der Wiek 7-15, 23730 Neustadt in Holstein, Germany',
-        'Ancora Marina',
-        '+49 4561 51710',
-        'https://www.google.com/maps/place/An+der+Wiek+7-15,+23730+Neustadt+in+Holstein'
-      ));
+    // Dropdown-Control (oben links)
+    const FilterControl = L.Control.extend({
+      onAdd: function() {
+        const div = L.DomUtil.create('div');
+        div.innerHTML = `
+          <label style="font:14px/1.2 -apple-system,system-ui,Segoe UI,Roboto,Arial; background:#fff;padding:.5rem .6rem;border-radius:.5rem;box-shadow:0 1px 3px rgba(0,0,0,.2);display:inline-block">
+            Abschnitt:&nbsp;
+            <select id="sectionSelect">
+              <option value="ALL">Alle</option>
+              <option>Nordsee</option>
+              <option>NOK & Binnen</option>
+              <option>Ostsee</option>
+            </select>
+          </label>`;
+        // Scroll/Zoom nicht blockieren:
+        L.DomEvent.disableClickPropagation(div);
+        return div;
+      },
+      onRemove: function(){}
+    });
+    map.addControl(new FilterControl({position:'topleft'}));
+
+    // Filter-Logik
+    const applyFilter = (val) => {
+      // Alle erst mal runter
+      Object.values(groups).forEach(g => map.removeLayer(g));
+      if (val === 'ALL') {
+        Object.values(groups).forEach(g => g.addTo(map));
+      } else {
+        groups[val].addTo(map);
+        // Auf sichtbare Marker zoomen
+        const b = groups[val].getBounds();
+        if (b.isValid()) map.fitBounds(b, {padding:[20,20]});
+      }
+    };
+    // Init + Event
+    const sel = document.getElementById('sectionSelect');
+    sel.addEventListener('change', e => applyFilter(e.target.value));
+    applyFilter('ALL');
+  </script>
+
+    points.forEach(p => {
+      L.marker([p.lat, p.lon], {icon: colorByRegion(p.region)})
+        .addTo(map)
+        .bindPopup(pop(p.name, p.addr, p.master, p.tel, p.gmaps));
+    });
+  
   </script>
 </body>
 </html>
