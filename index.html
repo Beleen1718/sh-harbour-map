@@ -1,354 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-    <meta charset="utf-8" />
-    <title>Schleswig-Holstein Harbours Map</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-        crossorigin=""/>
-    <style>
-        #map { width: 100%; height: 650px; }
-    </style>
+  <meta charset="utf-8" />
+  <title>Schleswig-Holstein Harbours Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="anonymous">
+  <style>
+    html,body {margin:0;padding:0;height:100%}
+    #map {width:100%; height: 100vh;}
+  </style>
 </head>
 <body>
-<div id="map"></div>
+  <div id="map"></div>
 
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-    integrity="sha512-nnmALPjJpWtYpXcRXx0zwqjIySOJ9xk5xgSvCu4QlzxX70ax1WXGOHx9oThAETcTd6ypPZT3/qiWJ/L4Me1uow=="
-    crossorigin=""></script>
-<script>
-    var map = L.map('map').setView([54.5, 9.5], 7);
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin="anonymous"></script>
 
+  <script>
+    // Karte
+    const map = L.map('map').setView([54.5, 9.5], 7);
+
+    // Tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    var icon_0 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.4749843, 9.0474306], {icon: icon_0}).addTo(map).bindPopup('<b>Husum Stadthafen & Binnenhafen</b><br>Hafenstraße, 25813 Husum, Germany<br>Hermut Götze<br><a href='tel:+49 4841 66130'>+49 4841 66130</a><br><a href='https://www.google.com/maps/place/Husum+Hafen' target='_blank'>Google Maps</a>');
-    var icon_1 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.3155936, 8.945468], {icon: icon_1}).addTo(map).bindPopup('<b>Tönning Hafen</b><br>Am Hafen 20, 25832 Tönning, Germany<br>Tönninger Yachtclub<br><a href='tel:+49 1577 8290741'>+49 1577 8290741</a><br><a href='https://www.google.com/maps/place/Am+Hafen+20,+25832+Tönning' target='_blank'>Google Maps</a>');
-    var icon_2 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.37321, 9.086167], {icon: icon_2}).addTo(map).bindPopup('<b>Friedrichstadt Stadthafen</b><br>Am Halbmond 3, 25840 Friedrichstadt, Germany<br>Motorbootclub Westküste<br><a href='tel:+49 4881 7710'>+49 4881 7710</a><br><a href='https://www.google.com/maps/place/Am+Halbmond+3,+25840+Friedrichstadt' target='_blank'>Google Maps</a>');
-    var icon_3 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.266217, 8.842983], {icon: icon_3}).addTo(map).bindPopup('<b>Eider-Sperrwerk Hafen</b><br>Dammstr. L305, 25764 Wesselburenerkoog, Germany<br>Eider-Sperrwerk lock<br><a href='tel:+49 4833 4535211'>+49 4833 4535211</a><br><a href='https://www.google.com/maps/place/Eidersperrwerk' target='_blank'>Google Maps</a>');
-    var icon_4 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.1235048, 8.8658055], {icon: icon_4}).addTo(map).bindPopup('<b>Büsum Hafen (Sportboothafen)</b><br>Segeltörn 22, 25761 Büsum, Germany<br>Büsumer Seglerverein<br><a href='tel:+49 4834 2997'>+49 4834 2997</a><br><a href='https://www.google.com/maps/place/Segeltörn+22,+25761+Büsum' target='_blank'>Google Maps</a>');
-    var icon_5 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.09217, 8.94983], {icon: icon_5}).addTo(map).bindPopup('<b>Meldorfer Hafen (Speicherkoog)</b><br>Promenade 2, 25704 Meldorf, Germany<br>Meldorfer Seglerverein<br><a href='tel:+49 4832 7658'>+49 4832 7658</a><br><a href='https://www.google.com/maps/place/Promenade+2,+25704+Meldorf' target='_blank'>Google Maps</a>');
-    var icon_6 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([53.8933353, 9.1260533], {icon: icon_6}).addTo(map).bindPopup('<b>Brunsbüttel Sportboothafen (Nordsee)</b><br>Am alten Hafen, 25541 Brunsbüttel, Germany<br>Brunsbüttel Marina<br><a href='tel:+49 160 6974729'>+49 160 6974729</a><br><a href='https://www.google.com/maps/place/Am+alten+Hafen,+25541+Brunsbüttel' target='_blank'>Google Maps</a>');
-    var icon_7 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.174167, 7.898056], {icon: icon_7}).addTo(map).bindPopup('<b>Helgoland Marina (Südhafen)</b><br>Westkaje 1084, 27498 Helgoland, Germany<br>WSA Tönning Außenbezirk Helgoland<br><a href='tel:+49 4725 81593583'>+49 4725 81593583</a><br><a href='https://www.google.com/maps/place/Westkaje+1084,+27498+Helgoland' target='_blank'>Google Maps</a>');
-    var icon_8 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.7302338, 8.6959679], {icon: icon_8}).addTo(map).bindPopup('<b>Dagebüll Hafen</b><br>Haffdeich 2, 25899 Dagebüll, Germany<br>Timo Kiekow<br><a href='tel:+49 4667 233'>+49 4667 233</a><br><a href='https://www.google.com/maps/place/Haffdeich+2,+25899+Dagebüll' target='_blank'>Google Maps</a>');
-    var icon_9 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.576683, 8.540917], {icon: icon_9}).addTo(map).bindPopup('<b>Hallig Hooge Anleger/Marina</b><br>Hanswarft, 25859 Hallig Hooge, Germany<br>Harry Diedrichsen<br><a href='tel:+49 4849 247'>+49 4849 247</a><br><a href='https://www.google.com/maps/place/Hanswarft,+25859+Hallig+Hooge' target='_blank'>Google Maps</a>');
-    var icon_10 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([53.8917311, 9.1485976], {icon: icon_10}).addTo(map).bindPopup('<b>Brunsbüttel Sportboothafen (NOK)</b><br>Alte Zentrale 4, 25541 Brunsbüttel, Germany<br>Sportboothafen NOK<br><a href='tel:+49 4852 885374'>+49 4852 885374</a><br><a href='https://www.google.com/maps/place/Alte+Zentrale+4,+25541+Brunsbüttel' target='_blank'>Google Maps</a>');
-    var icon_11 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.306417, 9.669317], {icon: icon_11}).addTo(map).bindPopup('<b>Rendsburg Stadthafen</b><br>Am Eiland 11, 24768 Rendsburg, Germany<br>Silke Bothmann<br><a href='tel:+49 4331 23961'>+49 4331 23961</a><br><a href='https://www.google.com/maps/place/Am+Eiland+11,+24768+Rendsburg' target='_blank'>Google Maps</a>');
-    var icon_12 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.36917, 10.14667], {icon: icon_12}).addTo(map).bindPopup('<b>Kiel-Holtenau NOK-Yachthafen</b><br>Kanalstraße, 24159 Kiel-Holtenau, Germany<br>WSA Kiel-Holtenau<br><a href='tel:+49 431 3603125'>+49 431 3603125</a><br><a href='https://www.google.com/maps/place/Kanalstraße+24159+Kiel' target='_blank'>Google Maps</a>');
-    var icon_13 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.6673032, 9.9372401], {icon: icon_13}).addTo(map).bindPopup('<b>Kappeln Stadthafen</b><br>Am Hafen 14 A, 24376 Kappeln, Germany<br>Kappeln Stadthafen<br><a href='tel:+49 172 4106702'>+49 172 4106702</a><br><a href='https://www.google.com/maps/place/Am+Hafen+14A,+24376+Kappeln' target='_blank'>Google Maps</a>');
-    var icon_14 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.68028, 9.99167], {icon: icon_14}).addTo(map).bindPopup('<b>Maasholm Yachthafen</b><br>Uleweg, 24404 Maasholm, Germany<br>Maasholm Yachthafen<br><a href='tel:+49 4642 6021'>+49 4642 6021</a><br><a href='https://www.google.com/maps/place/Uleweg,+24404+Maasholm' target='_blank'>Google Maps</a>');
-    var icon_15 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.5, 9.56667], {icon: icon_15}).addTo(map).bindPopup('<b>Schleswig Stadthafen</b><br>Am Hafen 5, 24837 Schleswig, Germany<br>Schleswig Stadthafen<br><a href='tel:+49 4621 801450'>+49 4621 801450</a><br><a href='https://www.google.com/maps/place/Am+Hafen+5,+24837+Schleswig' target='_blank'>Google Maps</a>');
-    var icon_16 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.5239585, 9.7237265], {icon: icon_16}).addTo(map).bindPopup('<b>Missunde Hafen</b><br>An de Wees 16, 24354 Kosel, Germany<br>Yachthafen Missunde<br><a href='tel:+49 4354 98430'>+49 4354 98430</a><br><a href='https://www.google.com/maps/place/An+de+Wees+16,+24354+Kosel' target='_blank'>Google Maps</a>');
-    var icon_17 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.634417, 9.9292961], {icon: icon_17}).addTo(map).bindPopup('<b>Arnis Stadthafen</b><br>Friedenshöher Str. 21, 24376 Grödersby, Germany<br>WSG Arnis/Grödersby e.V.<br><a href='tel:+49 4642 4421'>+49 4642 4421</a><br><a href='https://www.google.com/maps/place/Friedenshöher+Str.+21,+24376+Grödersby' target='_blank'>Google Maps</a>');
-    var icon_18 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.79111, 9.43667], {icon: icon_18}).addTo(map).bindPopup('<b>Flensburg Stadthafen</b><br>Kanalschuppen 6, 24937 Flensburg, Germany<br>Stadthafen Flensburg<br><a href='tel:+49 461 17499'>+49 461 17499</a><br><a href='https://www.google.com/maps/place/Kanalschuppen+6,+24937+Flensburg' target='_blank'>Google Maps</a>');
-    var icon_19 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.81028, 9.4525], {icon: icon_19}).addTo(map).bindPopup('<b>Marina Sonwik (Flensburg)</b><br>Fördepromenade 1, 24944 Flensburg, Germany<br>Peter Holt<br><a href='tel:+49 461 5050450'>+49 461 5050450</a><br><a href='https://www.google.com/maps/place/Fördepromenade+1,+24944+Flensburg' target='_blank'>Google Maps</a>');
-    var icon_20 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.838482, 9.524156], {icon: icon_20}).addTo(map).bindPopup('<b>Glücksburg Marina</b><br>Quellental 1, 24960 Glücksburg, Germany<br>Flensburger Segel-Club<br><a href='tel:+49 4631 969'>+49 4631 969</a><br><a href='https://www.google.com/maps/place/Quellental+1,+24960+Glücksburg' target='_blank'>Google Maps</a>');
-    var icon_21 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.8215369, 9.6558663], {icon: icon_21}).addTo(map).bindPopup('<b>Langballigau Hafen</b><br>Strandweg 5, 24977 Langballigau, Germany<br>Kreishafen Langballigau<br><a href='tel:+49 4636 976265'>+49 4636 976265</a><br><a href='https://www.google.com/maps/place/Strandweg+5,+24977+Langballigau' target='_blank'>Google Maps</a>');
-    var icon_22 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.4367917, 10.171962], {icon: icon_22}).addTo(map).bindPopup('<b>Strande Hafen</b><br>Strandstraße 12, 24229 Strande, Germany<br>Tobias Klüter<br><a href='tel:+49 4349 8988'>+49 4349 8988</a><br><a href='https://www.google.com/maps/place/Strandstraße+12,+24229+Strande' target='_blank'>Google Maps</a>');
-    var icon_23 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.4012595, 10.2170107], {icon: icon_23}).addTo(map).bindPopup('<b>Laboe Yachthafen</b><br>Börn 8, 24235 Ostseebad Laboe, Germany<br>Ole Kähler<br><a href='tel:+49 151 15064563'>+49 151 15064563</a><br><a href='https://www.google.com/maps/place/Börn+8,+24235+Laboe' target='_blank'>Google Maps</a>');
-    var icon_24 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.333, 10.153], {icon: icon_24}).addTo(map).bindPopup('<b>Kiel-Düsternbrook</b><br>Kiellinie 65, 24105 Kiel, Germany<br>Andreas Stranghöner / Ingo Seehusen<br><a href='tel:+49 431 26048426'>+49 431 26048426</a><br><a href='https://www.google.com/maps/place/Kiellinie+65,+24105+Kiel' target='_blank'>Google Maps</a>');
-    var icon_25 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.333, 10.153], {icon: icon_25}).addTo(map).bindPopup('<b>Kiel-Reventlou</b><br>Kiellinie 65, 24105 Kiel, Germany<br>Sporthafen Kiel GmbH<br><a href='tel:+49 431 26048426'>+49 431 26048426</a><br><a href='https://www.google.com/maps/place/Kiellinie+65,+24105+Kiel' target='_blank'>Google Maps</a>');
-    var icon_26 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.4194297, 10.2887216], {icon: icon_26}).addTo(map).bindPopup('<b>Marina Wendtorf</b><br>An den Stegen 1, 24235 Marina Wendtorf, Germany<br>ShipShape Deutschland GmbH<br><a href='tel:+49 4343 9090'>+49 4343 9090</a><br><a href='https://www.google.com/maps/place/An+den+Stegen+1,+24235+Wendtorf' target='_blank'>Google Maps</a>');
-    var icon_27 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.3746428, 10.9821252], {icon: icon_27}).addTo(map).bindPopup('<b>Heiligenhafen Marina</b><br>Am Jachthafen 4a, 23774 Heiligenhafen, Germany<br>Heiligenhafen Marina<br><a href='tel:+49 4362 503424'>+49 4362 503424</a><br><a href='https://www.google.com/maps/place/Am+Jachthafen+4a,+23774+Heiligenhafen' target='_blank'>Google Maps</a>');
-    var icon_28 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.3555876, 11.0778585], {icon: icon_28}).addTo(map).bindPopup('<b>Großenbrode Hafen</b><br>Am Kai 29, 23775 Großenbrode, Germany<br>Wassersportzentrum Großenbrode (Frank Meyer)<br><a href='tel:+49 172 4306800'>+49 172 4306800</a><br><a href='https://www.google.com/maps/place/Am+Kai+29,+23775+Großenbrode' target='_blank'>Google Maps</a>');
-    var icon_29 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.414118, 11.2117658], {icon: icon_29}).addTo(map).bindPopup('<b>Burgtiefe Marina (Fehmarn)</b><br>Am Yachthafen 14, 23769 Burgtiefe auf Fehmarn, Germany<br>Ralph Becker<br><a href='tel:+49 4371 8888900'>+49 4371 8888900</a><br><a href='https://www.google.com/maps/place/Am+Yachthafen+14,+23769+Fehmarn' target='_blank'>Google Maps</a>');
-    var icon_30 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.4472165, 11.0505622], {icon: icon_30}).addTo(map).bindPopup('<b>Orth Hafen (Fehmarn)</b><br>Am Hafen/Orth, 23769 Fehmarn, Germany<br>Hafen Orth GmbH<br><a href='tel:+49 4372 1282'>+49 4372 1282</a><br><a href='https://www.google.com/maps/place/Orth,+Fehmarn' target='_blank'>Google Maps</a>');
-    var icon_31 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.4967911, 11.2178042], {icon: icon_31}).addTo(map).bindPopup('<b>Puttgarden Yachthafen (Fehmarn)</b><br>Fährhafenstr., 23769 Fehmarn, Germany<br>Hauptzollamt Kiel Puttgarden Fährhafen<br><a href='tel:+49 4362 506450'>+49 4362 506450</a><br><a href='https://www.google.com/maps/place/Fährhafen+Puttgarden' target='_blank'>Google Maps</a>');
-    var icon_32 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([54.09361, 10.80694], {icon: icon_32}).addTo(map).bindPopup('<b>Neustadt i.H. – Ancora Marina</b><br>An der Wiek 7-15, 23730 Neustadt in Holstein, Germany<br>Ancora Marina<br><a href='tel:+49 4561 51710'>+49 4561 51710</a><br><a href='https://www.google.com/maps/place/An+der+Wiek+7-15,+23730+Neustadt+in+Holstein' target='_blank'>Google Maps</a>');
-    var icon_33 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([53.952992, 10.8566232], {icon: icon_33}).addTo(map).bindPopup('<b>Travemünde Stadthafen (Marina Baltica)</b><br>Travemünder Landstraße 300, 23570 Lübeck-Travemünde, Germany<br>Marina Baltica GmbH / Michael Genzmer<br><a href='tel:+49 4502 86010'>+49 4502 86010</a><br><a href='https://www.google.com/maps/place/Travemünder+Landstraße+300,+23570+Lübeck' target='_blank'>Google Maps</a>');
-    var icon_34 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([53.95833, 10.88], {icon: icon_34}).addTo(map).bindPopup('<b>Travemünde Passathafen</b><br>Am Priwallhafen 10, 23570 Lübeck, Germany<br>Passathafen / Lübecker Yacht-Club<br><a href='tel:+49 4502 6396'>+49 4502 6396</a><br><a href='https://www.google.com/maps/place/Am+Priwallhafen+10,+23570+Lübeck' target='_blank'>Google Maps</a>');
-    var icon_35 = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    L.marker([53.9936345, 10.8117964], {icon: icon_35}).addTo(map).bindPopup('<b>Niendorf/Ostsee Hafen</b><br>Im Hafen 1, 23669 Timmendorfer Strand, Germany<br>Uwe Beythien / Segler Verein Niendorf<br><a href='tel:+49 4503 86769'>+49 4503 86769</a><br><a href='https://www.google.com/maps/place/Im+Hafen+1,+23669+Timmendorfer+Strand' target='_blank'>Google Maps</a>');
-</script>
+    // Marker-Icons (Farbe nach Abschnitt)
+    const iconBlue  = new L.Icon({iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+      shadowUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+      iconSize:[25,41], iconAnchor:[12,41], popupAnchor:[1,-34], shadowSize:[41,41]});
+    const iconGreen = new L.Icon({iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+      shadowUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+      iconSize:[25,41], iconAnchor:[12,41], popupAnchor:[1,-34], shadowSize:[41,41]});
+    const iconRed   = new L.Icon({iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+      shadowUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+      iconSize:[25,41], iconAnchor:[12,41], popupAnchor:[1,-34], shadowSize:[41,41]});
+
+    // Helper zum Popup-HTML (Backticks!)
+    const pop = (name, addr, master, tel, gmaps) => `
+      <b>${name}</b><br>
+      ${addr}<br>
+      ${master ? master + '<br>' : ''}
+      <a href="tel:${tel.replace(/\s+/g,'')}">${tel}</a><br>
+      <a href="${gmaps}" target="_blank" rel="noopener">Google Maps</a>`;
+
+    // --- Marker (Auszug – deine komplette Liste) ---
+    L.marker([54.4749843, 9.0474306], {icon: iconBlue})
+      .addTo(map).bindPopup(pop(
+        'Husum Stadthafen & Binnenhafen',
+        'Hafenstraße, 25813 Husum, Germany',
+        'Hermut Götze',
+        '+49 4841 66130',
+        'https://www.google.com/maps/place/Husum+Hafen'
+      ));
+
+    L.marker([54.3155936, 8.945468], {icon: iconBlue})
+      .addTo(map).bindPopup(pop(
+        'Tönning Hafen',
+        'Am Hafen 20, 25832 Tönning, Germany',
+        'Tönninger Yachtclub',
+        '+49 1577 8290741',
+        'https://www.google.com/maps/place/Am+Hafen+20,+25832+Tönning'
+      ));
+
+    L.marker([54.37321, 9.086167], {icon: iconBlue})
+      .addTo(map).bindPopup(pop(
+        'Friedrichstadt Stadthafen',
+        'Am Halbmond 3, 25840 Friedrichstadt, Germany',
+        'Motorbootclub Westküste',
+        '+49 4881 7710',
+        'https://www.google.com/maps/place/Am+Halbmond+3,+25840+Friedrichstadt'
+      ));
+
+    // … (füge hier die restlichen Marker aus deiner Liste ein,
+    //    einfach das gleiche Muster verwenden und das passende Icon:
+    //    Nordsee = iconBlue, NOK & Binnen = iconGreen, Ostsee = iconRed)
+
+    // Beispiele noch zwei:
+    L.marker([54.4194297, 10.2887216], {icon: iconRed})
+      .addTo(map).bindPopup(pop(
+        'Marina Wendtorf',
+        'An den Stegen 1, 24235 Marina Wendtorf, Germany',
+        'ShipShape Deutschland GmbH',
+        '+49 4343 9090',
+        'https://www.google.com/maps/place/An+den+Stegen+1,+24235+Wendtorf'
+      ));
+
+    L.marker([54.09361, 10.80694], {icon: iconRed})
+      .addTo(map).bindPopup(pop(
+        'Neustadt i.H. – Ancora Marina',
+        'An der Wiek 7-15, 23730 Neustadt in Holstein, Germany',
+        'Ancora Marina',
+        '+49 4561 51710',
+        'https://www.google.com/maps/place/An+der+Wiek+7-15,+23730+Neustadt+in+Holstein'
+      ));
+  </script>
 </body>
 </html>
