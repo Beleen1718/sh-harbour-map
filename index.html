@@ -23,12 +23,6 @@
           crossorigin="anonymous"></script>
 
   <script>
-    // Karte
-    const map = L.map('map').setView([54.5, 9.5], 7);
-
-  <!-- … dein Head, Map, Leaflet.js bleiben wie sie sind … -->
-
-  <script>
     // Karte & Tiles
     const map = L.map('map').setView([54.5, 9.5], 7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -52,7 +46,7 @@
       <a href="tel:${tel.replace(/\s+/g,'')}">${tel}</a><br>
       <a href="${gmaps}" target="_blank" rel="noopener">Google Maps</a>`;
 
-    // ---- ALLE HÄFEN (deine Liste wie zuvor) ----
+    // ---- ALLE HÄFEN ----
     const points = [
       /* ==== Nordsee ==== */
       {name:'Husum Stadthafen & Binnenhafen', lat:54.4749843, lon:9.0474306, region:'Nordsee',
@@ -198,7 +192,6 @@
               <option>Ostsee</option>
             </select>
           </label>`;
-        // Scroll/Zoom nicht blockieren:
         L.DomEvent.disableClickPropagation(div);
         return div;
       },
@@ -208,29 +201,18 @@
 
     // Filter-Logik
     const applyFilter = (val) => {
-      // Alle erst mal runter
       Object.values(groups).forEach(g => map.removeLayer(g));
       if (val === 'ALL') {
         Object.values(groups).forEach(g => g.addTo(map));
       } else {
         groups[val].addTo(map);
-        // Auf sichtbare Marker zoomen
         const b = groups[val].getBounds();
         if (b.isValid()) map.fitBounds(b, {padding:[20,20]});
       }
     };
-    // Init + Event
     const sel = document.getElementById('sectionSelect');
     sel.addEventListener('change', e => applyFilter(e.target.value));
     applyFilter('ALL');
-  </script>
-
-    points.forEach(p => {
-      L.marker([p.lat, p.lon], {icon: colorByRegion(p.region)})
-        .addTo(map)
-        .bindPopup(pop(p.name, p.addr, p.master, p.tel, p.gmaps));
-    });
-  
   </script>
 </body>
 </html>
