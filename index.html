@@ -164,6 +164,7 @@
     ];
 
     // LayerGroups nach Abschnitt
+        // LayerGroups nach Abschnitt
     const groups = {
       'Nordsee': L.layerGroup().addTo(map),
       'NOK & Binnen': L.layerGroup().addTo(map),
@@ -171,14 +172,43 @@
     };
     const iconByRegion = (r) => r === 'Nordsee' ? iconBlue : (r === 'NOK & Binnen' ? iconGreen : iconRed);
 
-    // Marker erzeugen
+    // --- Auswahl-Status / Selektions-Icons ---
+    const iconSelected = new L.Icon({
+      iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
+      shadowUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+      iconSize:[25,41], iconAnchor:[12,41], popupAnchor:[1,-34], shadowSize:[41,41]
+    });
+    const selected = []; // hier merken wir die ausgewählten Häfen (in Reihenfolge der Klicks)
+
+    // Marker erzeugen (mit Toggle-Auswahl beim Klick)
     points.forEach(p => {
-      L.marker([p.lat, p.lon], {icon: iconByRegion(p.region)})
+      const m = L.marker([p.lat, p.lon], {icon: iconByRegion(p.region)})
         .bindPopup(pop(p.name, p.addr, p.master, p.tel, p.gmaps))
         .addTo(groups[p.region]);
+
+      p.marker = m;
+      p.selected = false;
+
+      m.on('click', () => {
+        // Popup erst nach (de)selection zeigen, damit Icon-Wechsel sichtbar wird
+        if (!p.selected) {
+          p.selected = true;
+          selected.push(p);
+          m.setIcon(iconSelected);
+        } else {
+          p.selected = false;
+          // aus 'selected' entfernen
+          const idx = selected.indexOf(p);
+          if (idx > -1) selected.splice(idx, 1);
+          m.setIcon(iconByRegion(p.region));
+        }
+        updateSelectionUI();
+        // Popup nach kurzer Verzögerung zeigen, damit Icon-Wechsel nicht „verschluckt“ wird
+        setTimeout(() => m.openPopup(), 0);
+      });
     });
 
-    // Dropdown-Control (oben links)
+    // ---- Dropdown-Filter (oben links) ----
     const FilterControl = L.Control.extend({
       onAdd: function() {
         const div = L.DomUtil.create('div');
@@ -194,12 +224,10 @@
           </label>`;
         L.DomEvent.disableClickPropagation(div);
         return div;
-      },
-      onRemove: function(){}
+      }
     });
     map.addControl(new FilterControl({position:'topleft'}));
 
-    // Filter-Logik
     const applyFilter = (val) => {
       Object.values(groups).forEach(g => map.removeLayer(g));
       if (val === 'ALL') {
@@ -213,6 +241,66 @@
     const sel = document.getElementById('sectionSelect');
     sel.addEventListener('change', e => applyFilter(e.target.value));
     applyFilter('ALL');
+
+    // ---- Routen-Control (oben rechts) ----
+    const RouteControl = L.Control.extend({
+      onAdd: function() {
+        const div = L.DomUtil.create('div');
+        div.style.font = '14px/1.2 -apple-system,system-ui,Segoe UI,Roboto,Arial';
+        div.style.background = '#fff';
+        div.style.padding = '.5rem .6rem';
+        div.style.borderRadius = '.5rem';
+        div.style.boxShadow = '0 1px 3px rgba(0,0,0,.2)';
+        div.innerHTML = `
+          <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+            <strong>Ausgewählt:&nbsp;<span id="selCount">0</span></strong>
+            <button id="btnRoute" style="padding:.35rem .6rem;border:1px solid #ccc;border-radius:.4rem;background:#f6f6f6;cursor:pointer">Route in Google Maps</button>
+            <button id="btnClear" style="padding:.35rem .6rem;border:1px solid #ccc;border-radius:.4rem;background:#f6f6f6;cursor:pointer">Auswahl löschen</button>
+          </div>`;
+        L.DomEvent.disableClickPropagation(div);
+        return div;
+      }
+    });
+    map.addControl(new RouteControl({position:'topright'}));
+
+    // UI-Updates & Aktionen
+    const elCount = () => document.getElementById('selCount');
+
+    function updateSelectionUI() {
+      const c = elCount();
+      if (c) c.textContent = String(selected.length);
+    }
+
+    function openRouteInGoogleMaps() {
+      if (selected.length < 2) {
+        alert('Bitte mindestens zwei Häfen auswählen.');
+        return;
+      }
+      // Route in der Reihenfolge der Klicks
+      const parts = selected.map(p => `${p.lat},${p.lon}`);
+      const url = 'https://www.google.com/maps/dir/' + parts.join('/');
+      window.open(url, '_blank');
+    }
+
+    function clearSelection() {
+      selected.splice(0, selected.length);
+      points.forEach(p => {
+        if (p.selected) {
+          p.selected = false;
+          p.marker.setIcon(iconByRegion(p.region));
+        }
+      });
+      updateSelectionUI();
+    }
+
+    // Buttons verdrahten (nachdem Control im DOM ist)
+    setTimeout(() => {
+      const btnRoute = document.getElementById('btnRoute');
+      const btnClear = document.getElementById('btnClear');
+      if (btnRoute) btnRoute.addEventListener('click', openRouteInGoogleMaps);
+      if (btnClear) btnClear.addEventListener('click', clearSelection);
+    }, 0);
+
   </script>
 </body>
 </html>
